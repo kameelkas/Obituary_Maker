@@ -1,0 +1,132 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+p {
+  margin: 0;
+  padding: 0;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+nav {
+  display: flex;
+  border-bottom: 1px solid #eee;
+}
+nav aside {
+  flex: 0 1 12%;
+  display: flex;
+  justify-content: flex-end;
+}
+#head {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  padding: 10px 0;
+}
+#obituary-button {
+  padding: 0 20px;
+  font-size: 1em;
+  background-color: transparent;
+  border: none;
+}
+#obituary-button:hover {
+  background-color: green;
+  color: white;
+}
+#write-button {
+  background-color: aquamarine;
+  border: none;
+  border-radius: 4px;
+  padding: 14px 220px;
+  font-size: 20px;
+  color: white;
+}
+#write-button:hover {
+  background-color: greenyellow;
+  color: black;
+}
+#write-button::after {
+  background-color: grey;
+}
+#empty-o-list{
+  color: gray;
+  font-size: x-large;
+  font-weight: bolder;
+  text-align: center;
+  padding: 10%;
+}
+#date-input {
+  border: none;
+  outline: none;
+}
+#image-input {
+  display: none;
+}
+#new-Obituary {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  height: 100vh;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#exit {
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+#title {
+  font-size: xx-large;
+}
+#name-bar {
+  height: 50px;
+  width: 560px;
+  font-size: larger;
+}
+#image-bar:hover {
+  text-decoration: underline;
+}
+#image-bar {
+  position: relative;
+  left: 180px;
+  top: 2px;
+}
+#o-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-gap: 20px;
+  }
+@media screen and (max-width: 960px) {
+  #o-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 640px) {
+  #o-list {
+    grid-template-columns: 1fr;
+  }
+}
+#o-boxes {
+  border: 2px solid black;
+  height: max-content;
+  width: calc(var(--o-list-width) / 4 - 20px);
+  margin: 10px;
+  justify-content: center;
+  text-align: center;
+}
+#pose-picture {
+  height: 50%;
+  width: 100%;
+}
