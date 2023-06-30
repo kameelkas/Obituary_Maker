@@ -10,8 +10,8 @@ function Layout() {
   const [showDescription, setShowDescription] = useState({});
   const [display, setDisplay] = useState(false);
   const [isPlaying, setPlaying] = useState(false);
-  const audioRef = useRef(null)
-
+  const audioRef = useRef(null);
+  const [audioStates, setAudioStates] = useState({});
 
   useEffect(() => {
     const getTer = async () => {
@@ -64,25 +64,39 @@ function Layout() {
       [formattedObituary.id]: true,
       ...Object.fromEntries(obituaries.map((obituary) => [obituary.id, false])),
     });
+    setAudioStates((prevState) => ({
+      ...prevState,
+      [formattedObituary.id]: false,
+    }));
   };
 
   const handleShowDescription = (id) => {
-    setShowDescription({ ...showDescription, [id]: !showDescription[id] });
+    setShowDescription((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }));
   };
 
-  const toggleAudio = () => {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play()
-      }
-      setPlaying(!isPlaying);
-    };
-
-  const audioEnded = () => {
-    setPlaying(false);
+  const toggleAudio = (id) => {
+    const audioElement = document.getElementById(`audio-${id}`);
+    if (audioElement.paused) {
+      audioElement.play();
+    } else {
+      audioElement.pause();
+    }
+    setAudioStates((prevState) => ({
+      ...prevState,
+      [id]: !audioElement.paused,
+    }));
   };
-
+  
+  const audioEnded = (id) => {
+    setAudioStates((prevState) => ({
+      ...prevState,
+      [id]: false,
+    }));
+  };
+  
 
   return (
     <div>
@@ -102,7 +116,7 @@ function Layout() {
           </button>
         </aside>
       </nav>
-      {obituaries.length == 0 ? (
+      {obituaries.length === 0 ? (
         <div id="empty-o-list">No Obituary Yet</div>
       ) : (
         <div id="o-list">
@@ -115,11 +129,7 @@ function Layout() {
                 >
                   <img id="pose-picture" src={obituary.ImageURL} />
                   <br />
-                  <h3>
-                    <strong>
-                      <i>{obituary.Name}</i>
-                    </strong>
-                  </h3>
+                  <div id="name">{obituary.Name}</div>
                   <br />
                   {formatDate(obituary.Born)} - {formatDate(obituary.Dead)}
                 </div>
@@ -128,10 +138,18 @@ function Layout() {
                   <div id="description">
                     {obituary.Obituary}
                     <div id="button">
-                      <button className="play-pause" onClick={toggleAudio}>
-                        {isPlaying ? '||' : '▶'}
+                      <button
+                        className="play-pause"
+                        onClick={() => toggleAudio(obituary.id)}
+                      >
+                        {audioStates[obituary.id] ? "||" : "▶"}
                       </button>
-                      <audio id="audio" ref={audioRef} src={obituary.SpeechURL} onEnded={audioEnded}></audio>
+                      <audio
+                        id={`audio-${obituary.id}`}
+                        ref={audioRef}
+                        src={obituary.SpeechURL}
+                        onEnded={() => audioEnded(obituary.id)}
+                      />
                     </div>
                   </div>
                 )}
