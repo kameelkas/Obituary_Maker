@@ -37,7 +37,7 @@ def store_files_handler(event, context):
     body_image = {
         'timestamp': timestamp,
         'api_key': api_key,
-        'eager': 'e_art:zorro,e_grayscale',
+        'eager': 'e_art:zorro'
     }
 
     body_image['signature'] = create_signature(body_image, api_s_key)
@@ -64,7 +64,7 @@ def store_files_handler(event, context):
     print(json_res_image)
     print(json_res_speech)
 
-    image_url = json_res_image['secure_url']
+    image_url = json_res_image['eager'][0]['secure_url']
     speech_url = json_res_speech['secure_url']
 
     input_info = {

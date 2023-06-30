@@ -14,7 +14,7 @@ def generate_obituary_handler(event, context):
     dead = event['Dead']
     id = event['id']
 
-    prompt = f'Please write an obituary about a person/creature named {name} who was born on {born} and died on {dead}.'
+    prompt = f'Please write an obituary about a person named {name} who was born on {born} and died on {dead}.'
     
     url = 'https://api.openai.com/v1/completions'
 
@@ -31,11 +31,13 @@ def generate_obituary_handler(event, context):
     }
 
     try:
-        res = requests.post(url, headers=headers, data=json.dumps(body))
-        print(res.text)
+        res = requests.post(url, headers=headers, json=body)
+        res.raise_for_status()  # Raise an exception for non-2xx responses
         obituary = res.json()['choices'][0]['text']
-    except:
-        obituary = "ChatGPT error"
+    except requests.exceptions.HTTPError as e:
+        obituary = f"OpenAI API error: {str(e)}"
+    except Exception as e:
+        obituary = f"Error: {str(e)}"
 
     input_info = {
         'Name':name,
@@ -46,4 +48,5 @@ def generate_obituary_handler(event, context):
     }
 
     return json.dumps(input_info)
+
 

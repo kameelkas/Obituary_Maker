@@ -1,5 +1,5 @@
 import { Outlet, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import CreatePage from "./CreatePage";
 
@@ -9,6 +9,9 @@ function Layout() {
   const [showCreate, setShowCreate] = useState(false);
   const [showDescription, setShowDescription] = useState({});
   const [display, setDisplay] = useState(false);
+  const [isPlaying, setPlaying] = useState(false);
+  const audioRef = useRef(null)
+
 
   useEffect(() => {
     const getTer = async () => {
@@ -52,8 +55,8 @@ function Layout() {
   const addObituary = (obituary) => {
     const formattedObituary = {
       ...obituary,
-      born: formatDate(obituary.born),
-      dead: formatDate(obituary.dead),
+      born: formatDate(obituary.Born),
+      dead: formatDate(obituary.Dead),
     };
     setDisplay(true);
     setObituaries([formattedObituary, ...obituaries]);
@@ -67,9 +70,20 @@ function Layout() {
     setShowDescription({ ...showDescription, [id]: !showDescription[id] });
   };
 
-  const playAudio = (obituary) => {
-    return <audio controls src={obituary.audio} />;
+  const toggleAudio = () => {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play()
+      }
+      setPlaying(!isPlaying);
+    };
+
+  const audioEnded = () => {
+    setPlaying(false);
   };
+
+
   return (
     <div>
       <CreatePage
@@ -101,17 +115,24 @@ function Layout() {
                 >
                   <img id="pose-picture" src={obituary.ImageURL} />
                   <br />
-                  {obituary.Name}
+                  <h3>
+                    <strong>
+                      <i>{obituary.Name}</i>
+                    </strong>
+                  </h3>
                   <br />
-                  {formatDate(obituary.born)} - {formatDate(obituary.Dead)}
+                  {formatDate(obituary.Born)} - {formatDate(obituary.Dead)}
                 </div>
                 <br />
                 {showDescription[obituary.id] && (
                   <div id="description">
                     {obituary.Obituary}
-                    <button onClick={() => playAudio(obituary)}>
-                      &#xe23a;
-                    </button>
+                    <div id="button">
+                      <button className="play-pause" onClick={toggleAudio}>
+                        {isPlaying ? '||' : '▶'}
+                      </button>
+                      <audio id="audio" ref={audioRef} src={obituary.SpeechURL} onEnded={audioEnded}></audio>
+                    </div>
                   </div>
                 )}
               </div>
