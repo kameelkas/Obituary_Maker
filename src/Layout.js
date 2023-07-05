@@ -127,11 +127,11 @@ function Layout() {
                   id="image-box"
                   onClick={() => handleShowDescription(obituary.id)}
                 >
-                  <img id="pose-picture" src={obituary.ImageURL} />
+                  <img id="pose-picture" src={obituary.ImageURL || obituary.img} />
                   <br />
-                  <div id="name">{obituary.Name}</div>
+                  <div id="name">{obituary.Name || obituary.name}</div>
                   <br />
-                  {formatDate(obituary.Born)} - {formatDate(obituary.Dead)}
+                  {formatDate(obituary.Born || obituary.born)} - {formatDate(obituary.Dead || obituary.dead)}
                 </div>
                 <br />
                 {showDescription[obituary.id] && (
