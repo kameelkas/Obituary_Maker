@@ -35,10 +35,12 @@ def generate_obituary_handler(event, context):
         res.raise_for_status()  # Raise an exception for non-2xx responses
         obituary = res.json()['choices'][0]['text']
     except requests.exceptions.HTTPError as e:
-        obituary = f"OpenAI API error: {str(e)}"
+        wait_time = int(res.headers.get('Retry-After', '0'))
+        obituary = f"OpenAI API error: {str(e)}. Wait for {wait_time} seconds before sending a new request."
     except Exception as e:
         obituary = f"Error: {str(e)}"
 
+    print(res)
     input_info = {
         'Name':name,
         'Born':born,
