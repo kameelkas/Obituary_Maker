@@ -55,8 +55,8 @@ function Layout() {
   const addObituary = (obituary) => {
     const formattedObituary = {
       ...obituary,
-      born: formatDate(obituary.Born),
-      dead: formatDate(obituary.Dead),
+      born: formatDate(obituary.born),
+      dead: formatDate(obituary.dead),
     };
     setDisplay(true);
     setObituaries([formattedObituary, ...obituaries]);
@@ -158,7 +158,7 @@ function Layout() {
           ))}
         </div>
       )}
-      <Outlet />
+
     </div>
   );
 }
