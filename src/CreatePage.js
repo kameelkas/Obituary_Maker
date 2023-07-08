@@ -18,6 +18,26 @@ function CreatePage({ showModal, onScreen, addObituary }) {
   const [isFormValid, setIsFormValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [descript, setDescript] = useState("");
+  const [alertShown, setAlertShown] = useState(false);
+
+  const handleBornDate = () => {
+    if (born > dead) {
+      window.alert("Born date cannot be after dead date");
+      setBorn("");
+    }
+  };
+
+  const handleDeadDate = () => {
+    if (dead > today) {
+      window.alert("Dead date cannot be after today. Please do not go killing people.");
+      setDead(today);
+    }
+  };
+
+  useEffect(() => {
+    handleBornDate();
+    handleDeadDate();
+  }, [born, dead]);
 
   useEffect(() => {
     if (img !== "" && name !== "" && born !== "" && dead !== "") {
@@ -117,6 +137,8 @@ function CreatePage({ showModal, onScreen, addObituary }) {
   ]);
   if (!showModal) return null;
 
+
+
   return (
     <div id="new-Obituary">
       <button id="exit" onClick={onScreen}>
@@ -196,7 +218,7 @@ function CreatePage({ showModal, onScreen, addObituary }) {
         setShowObituary(false),
         setName(""),
         setImg(""),
-        setName(""),
+        setBorn(""),
         setDead(today),
         setDescript(""))}
     </div>
