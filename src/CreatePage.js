@@ -56,11 +56,13 @@ function CreatePage({ showModal, onScreen, addObituary }) {
         const allinfo = JSON.parse(JSON.parse(bodyInfo));
         //You can get the individual fields as i did in line 57 and then use those in the addObituary function
         console.log(allinfo);
-        console.log(allinfo.Name);
         setDescript(allinfo.Obituary);
         setImg(allinfo.ImageURL);
         setAudio(allinfo.SpeechURL);
-        console.log(allinfo.Obituary);
+        setName(allinfo.Name);
+        setBorn(allinfo.Born);
+        setDead(allinfo.Dead)
+
       };
 
       makeObituary();
@@ -92,6 +94,7 @@ function CreatePage({ showModal, onScreen, addObituary }) {
         born,
         dead,
         descript,
+        audio,
       };
       addObituary(obituary);
       setIsLoading(false);
@@ -101,17 +104,16 @@ function CreatePage({ showModal, onScreen, addObituary }) {
       setBorn("");
       setDead(today);
       setDescript("");
+      setAudio(null);
     }
   }, [
     descript,
-    addObituary,
     img,
     name,
     born,
     dead,
-    setIsLoading,
-    onScreen,
     today,
+    audio,
   ]);
   if (!showModal) return null;
 
@@ -190,8 +192,9 @@ function CreatePage({ showModal, onScreen, addObituary }) {
         </>
       )}
       {showObituary &&
-        ((<Outlet context={[img, name, born, dead, descript, audio]} />),
+        (setIsLoading(true),
         setShowObituary(false),
+        setName(""),
         setImg(""),
         setName(""),
         setDead(today),
