@@ -94,7 +94,7 @@ function CreatePage({ showModal, onScreen, addObituary }) {
         born,
         dead,
         descript,
-        audio
+        audio,
       };
       addObituary(obituary);
       setIsLoading(false);
@@ -113,6 +113,7 @@ function CreatePage({ showModal, onScreen, addObituary }) {
     born,
     dead,
     today,
+    audio,
   ]);
   if (!showModal) return null;
 

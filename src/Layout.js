@@ -55,8 +55,8 @@ function Layout() {
   const addObituary = (obituary) => {
     const formattedObituary = {
       ...obituary,
-      born: formatDate(obituary.born),
-      dead: formatDate(obituary.dead),
+      //born: formatDate(obituary.Born),
+      //dead: formatDate(obituary.Dead),
     };
     setDisplay(true);
     setObituaries([formattedObituary, ...obituaries]);
@@ -136,7 +136,7 @@ function Layout() {
                 <br />
                 {showDescription[obituary.id] && (
                   <div id="description">
-                    {obituary.Obituary}
+                    {obituary.Obituary || obituary.descript}
                     <div id="button">
                       <button
                         className="play-pause"
@@ -147,7 +147,7 @@ function Layout() {
                       <audio
                         id={`audio-${obituary.id}`}
                         ref={audioRef}
-                        src={obituary.SpeechURL}
+                        src={obituary.SpeechURL || obituary.audio}
                         onEnded={() => audioEnded(obituary.id)}
                       />
                     </div>
@@ -158,7 +158,7 @@ function Layout() {
           ))}
         </div>
       )}
-
+      <Outlet />
     </div>
   );
 }
