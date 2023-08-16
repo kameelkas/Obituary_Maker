@@ -14,9 +14,13 @@ def generate_obituary_handler(event, context):
     dead = event['Dead']
     id = event['id']
 
-    prompt = f'Please write an obituary about a person named {name} who was born on {born} and died on {dead}.'
+    prompt = f'Please write an obituary about a person/fictional character named {name} who was born on {born} and died on {dead}. Please keep it short.'
     
-    url = 'https://api.openai.com/v1/completions'
+    messages = [
+        {"role": "user", "content": prompt}
+    ]
+
+    url = 'https://api.openai.com/v1/chat/completions'
 
     headers = {
         'Content-Type': 'application/json',
@@ -24,23 +28,19 @@ def generate_obituary_handler(event, context):
     }
 
     body = {
-        'model':'text-curie-001',
-        'prompt': prompt,
-        'max_tokens': 600,
+        'model':'gpt-3.5-turbo',
+        'messages': messages,
+        'max_tokens': 150,
         'temperature': 0.6
     }
 
     try:
         res = requests.post(url, headers=headers, json=body)
-        res.raise_for_status()  # Raise an exception for non-2xx responses
-        obituary = res.json()['choices'][0]['text']
-    except requests.exceptions.HTTPError as e:
-        wait_time = int(res.headers.get('Retry-After', '0'))
-        obituary = f"OpenAI API error: {str(e)}. Wait for {wait_time} seconds before sending a new request."
+        print(res.json())
+        obituary = res.json()['choices'][0]['message']['content']
     except Exception as e:
         obituary = f"Error: {str(e)}"
 
-    print(res)
     input_info = {
         'Name':name,
         'Born':born,
