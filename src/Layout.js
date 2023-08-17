@@ -108,7 +108,7 @@ function Layout() {
       />
       <nav>
         <div id="head">
-          <h1>The Last Show</h1>
+          <h1>Obituary Maker</h1>
         </div>
         <aside>
           <button id="obituary-button" onClick={onScreen}>
