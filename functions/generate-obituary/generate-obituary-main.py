@@ -14,7 +14,7 @@ def generate_obituary_handler(event, context):
     dead = event['Dead']
     id = event['id']
 
-    prompt = f'Please write an obituary about a person/fictional character named {name} who was born on {born} and died on {dead}. Please keep it short.'
+    prompt = f'Please write a short obituary about a person/fictional character named {name} who was born on {born} and died on {dead}. Please keep it very brief.'
     
     messages = [
         {"role": "user", "content": prompt}
@@ -30,7 +30,7 @@ def generate_obituary_handler(event, context):
     body = {
         'model':'gpt-3.5-turbo',
         'messages': messages,
-        'max_tokens': 150,
+        'max_tokens': 200,
         'temperature': 0.6
     }
 
