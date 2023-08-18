@@ -21,5 +21,8 @@ The third lambda function in the step function, `store-files`, takes the image a
 
 The fourth lambda function in the step function, `save-item`, takes all the incoming information from the previous lambda function and saves everything into a Dynamo DB table. The incoming information is then sent directly back to the orchestrator lambda function (`create-obituary`) and all this information is sent back to the front end via GET request.
 
+## Video Demonstration
+https://github.com/kameelkas/Obituary_Maker/assets/85535423/96261205-df7e-42a2-9d40-a282de349385
+
 ## Running the Program
 Click the following link: https://ornate-basbousa-0f9dfa.netlify.app/
